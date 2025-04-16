@@ -1,20 +1,26 @@
-from exceptions import ingrese_numero
+from src.exceptions import NumeroDebeSerPositivo
 
-def main():
-    """
-    Programa principal que solicita números al usuario y muestra los resultados.
-    """
+def ingrese_numero(loop=True):
     while True:
         try:
-            numero = ingrese_numero()
-            print(f"Número válido: {numero}")
-        except ValueError as e:
-            print(f"Error: {e}")
+            entrada = input("Ingresa un número positivo: ")
+            numero = int(entrada)
+            if numero < 0:
+                raise NumeroDebeSerPositivo("El número debe ser mayor o igual a cero.")
+            print(f"Número ingresado: {numero}")
+            return numero
         except NumeroDebeSerPositivo as e:
             print(f"Error: {e}")
-        except KeyboardInterrupt:
-            print("\nPrograma finalizado.")
+            if not loop:
+                raise  
+        except ValueError:
+            print("Error: Debes ingresar un número válido.")
+            if not loop:
+                raise  
+
+        if not loop:
             break
 
 if __name__ == "__main__":
-    main() 
+    numero = ingrese_numero()
+    print(f"El número ingresado es: {numero}")
